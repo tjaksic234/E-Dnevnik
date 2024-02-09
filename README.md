@@ -1,2 +1,2 @@
-# E-Dnevnik-
+# E-Dnevnik
 Projekt za kolegij NOOP

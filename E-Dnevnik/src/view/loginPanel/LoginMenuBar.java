@@ -1,4 +1,4 @@
-package view;
+package view.loginPanel;
 
 import listeners.MenuBarEventListener;
 

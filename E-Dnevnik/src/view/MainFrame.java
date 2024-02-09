@@ -1,5 +1,8 @@
 package view;
 
+import view.loginPanel.LoginMenuBar;
+import view.loginPanel.LoginPanel;
+
 import javax.swing.*;
 import java.awt.*;
 

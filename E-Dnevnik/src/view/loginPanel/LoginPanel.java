@@ -1,4 +1,4 @@
-package view;
+package view.loginPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +23,7 @@ public class LoginPanel extends JPanel {
 
         initComps();
         layoutComps();
+        activateComps();
     }
 
     private void initComps() {
@@ -81,6 +82,32 @@ public class LoginPanel extends JPanel {
         add(teacherSignInButton);
     }
 
+
+
+    public void activateComps() {
+        studentSignInButton.addActionListener(e -> {
+            String username = studentUsernameField.getText();
+            String password = new String(studentPasswordField.getPassword());
+            if (checkStudentCredentials(username, password)) {
+                JOptionPane.showMessageDialog(this, "Student access granted.");
+                reset();
+            } else {
+                JOptionPane.showMessageDialog(this, "Incorrect student credentials.");
+            }
+        });
+
+        teacherSignInButton.addActionListener(e -> {
+            String username = teacherUsernameField.getText();
+            String password = new String(teacherPasswordField.getPassword());
+            if (checkTeacherCredentials(username, password)) {
+                JOptionPane.showMessageDialog(this, "Teacher access granted.");
+                reset();
+            } else {
+                JOptionPane.showMessageDialog(this, "Incorrect teacher credentials.");
+            }
+        });
+    }
+
     public void reset() {
         studentUsernameField.setText("");
         studentPasswordField.setText("");
@@ -88,17 +115,11 @@ public class LoginPanel extends JPanel {
         teacherPasswordField.setText("");
     }
 
-    public void checkFields() {
-        if (studentUsernameField.getText().isEmpty() || studentPasswordField.getPassword().length == 0) {
-            studentSignInButton.setEnabled(false);
-        } else {
-            studentSignInButton.setEnabled(true);
-        }
+    private boolean checkStudentCredentials(String username, String password) {
+        return username.equals("student") && password.equals("student");
+    }
 
-        if (teacherUsernameField.getText().isEmpty() || teacherPasswordField.getPassword().length == 0) {
-            teacherSignInButton.setEnabled(false);
-        } else {
-            teacherSignInButton.setEnabled(true);
-        }
+    private boolean checkTeacherCredentials(String username, String password) {
+        return username.equals("teacher") && password.equals("teacher");
     }
 }

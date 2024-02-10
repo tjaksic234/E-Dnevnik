@@ -47,6 +47,27 @@ public class AdminFrame extends JFrame implements Observer {
                 }
             }
         });
+        adminPanel.setAdminPanelEventListener(actionCommand -> {
+            if (actionCommand.getActionCommand().equals("register_student")) {
+                String name = actionCommand.getName();
+                String surname = actionCommand.getSurname();
+                if (name.isEmpty() || surname.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Student registered successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+            if (actionCommand.getActionCommand().equals("register_professor")) {
+                String name = actionCommand.getName();
+                String surname = actionCommand.getSurname();
+                if (name.isEmpty() || surname.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Professor registered successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+
     }
 
 

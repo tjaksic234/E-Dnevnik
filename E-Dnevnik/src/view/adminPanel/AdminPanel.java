@@ -1,12 +1,16 @@
 package view.adminPanel;
 
+import listeners.AdminPanelActionListener;
+import listeners.AdminPanelEvent;
 import model.Credentials;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Stack;
 
-public class AdminPanel extends JPanel {
+public class AdminPanel extends JPanel implements ActionListener {
 
     private JTextField studentNameField;
     private JTextField studentSurnameField;
@@ -17,14 +21,12 @@ public class AdminPanel extends JPanel {
     private JButton undoStudentButton;
     private JButton undoProfessorButton;
 
-    private final Stack<Credentials> studentCredentials = new Stack<>();
-    private final Stack<Credentials> professorCredentials = new Stack<>();
+    private AdminPanelActionListener adminPanelActionListener;
 
     public AdminPanel() {
 
         initializeComponents();
         layoutComponents();
-        activateComponents();
     }
 
     private void initializeComponents() {
@@ -67,6 +69,17 @@ public class AdminPanel extends JPanel {
         registerProfessorButton.setPreferredSize(new Dimension(150, 40));
         undoStudentButton.setPreferredSize(new Dimension(150, 40));
         undoProfessorButton.setPreferredSize(new Dimension(150, 40));
+
+
+        // Add action listener to buttons
+        registerStudentButton.addActionListener(this);
+        registerStudentButton.setActionCommand("register_student");
+        registerProfessorButton.addActionListener(this);
+        registerProfessorButton.setActionCommand("register_professor");
+        undoStudentButton.addActionListener(this);
+        undoStudentButton.setActionCommand("undo_student");
+        undoProfessorButton.addActionListener(this);
+        undoProfessorButton.setActionCommand("undo_professor");
     }
 
     private void layoutComponents() {
@@ -157,44 +170,17 @@ public class AdminPanel extends JPanel {
         add(rightPanel, BorderLayout.CENTER);
     }
 
-    private void activateComponents() {
-        registerStudentButton.addActionListener(e -> {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (adminPanelActionListener != null) {
             String name = studentNameField.getText();
             String surname = studentSurnameField.getText();
-            if (name.isEmpty() || surname.isEmpty()) {
-                JOptionPane.showMessageDialog(AdminPanel.this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(AdminPanel.this, "Student registered successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-
-        registerProfessorButton.addActionListener(e -> {
-            String name = professorNameField.getText();
-            String surname = professorSurnameField.getText();
-            if (name.isEmpty() || surname.isEmpty()) {
-                JOptionPane.showMessageDialog(AdminPanel.this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(AdminPanel.this, "Professor registered successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-
-        undoStudentButton.addActionListener(e -> {
-            if (studentCredentials.isEmpty()) {
-                JOptionPane.showMessageDialog(AdminPanel.this, "No student to undo.", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                studentCredentials.pop();
-                JOptionPane.showMessageDialog(AdminPanel.this, "Last added student removed.", "Undo", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-
-        undoProfessorButton.addActionListener(e -> {
-            if (professorCredentials.isEmpty()) {
-                JOptionPane.showMessageDialog(AdminPanel.this, "No professor to undo.", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                professorCredentials.pop();
-                JOptionPane.showMessageDialog(AdminPanel.this, "Last added professor removed.", "Undo", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
+            AdminPanelEvent adminPanelEvent = new AdminPanelEvent(this, name, surname, e.getActionCommand());
+            adminPanelActionListener.adminPanelEventOccured(adminPanelEvent);
+        }
     }
 
+    public void setAdminPanelEventListener(AdminPanelActionListener adminPanelActionListener) {
+        this.adminPanelActionListener = adminPanelActionListener;
+    }
 }

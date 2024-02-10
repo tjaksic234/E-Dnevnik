@@ -1,30 +1,21 @@
 package test;
 
-import model.DataManager;
-import model.StudentCredentials;
-import model.TeacherCredentials;
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import view.adminPanel.AdminFrame;
+
+import javax.swing.*;
 
 public class TesterClient {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedLookAndFeelException {
 
-        DataManager<StudentCredentials> dataManager = new DataManager<>();
+        UIManager.setLookAndFeel(new FlatMacDarkLaf());
 
-        StudentCredentials studentCredentials1 = new StudentCredentials("teo","jaksic");
-        StudentCredentials studentCredentials2 = new StudentCredentials("ante","panjkota");
-
-        dataManager.addEntity(studentCredentials1);
-        dataManager.addEntity(studentCredentials1);
-        dataManager.addEntity(studentCredentials2);
-
-        for (StudentCredentials studentCredentials : dataManager.getData()) {
-            System.out.println(studentCredentials.getName() + " " + studentCredentials.getSurname());
-        }
-
-        DataManager<TeacherCredentials> teacherCredentialsDataManager = new DataManager<>();
-        TeacherCredentials teacherCredentials = new TeacherCredentials("joj","ajme");
-        teacherCredentialsDataManager.addEntity(teacherCredentials);
-        teacherCredentialsDataManager.removeEntity(teacherCredentials);
-        teacherCredentialsDataManager.removeEntity(teacherCredentials);
-        System.out.println(teacherCredentialsDataManager.getData().size());
+        SwingUtilities.invokeLater(() -> {
+            AdminFrame adminFrame = new AdminFrame();
+        });
     }
 }

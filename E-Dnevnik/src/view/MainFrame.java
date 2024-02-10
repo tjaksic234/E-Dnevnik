@@ -1,16 +1,20 @@
 package view;
 
+import controller.Controller;
+import observer.Observer;
+import view.adminPanel.AdminFrame;
 import view.loginPanel.LoginMenuBar;
 import view.loginPanel.LoginPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements Observer {
 
     private LoginPanel loginPanel;
     private LoginMenuBar loginMenuBar;
 
+    private Controller controller;
 
     private final String ADMIN_USERNAME = "123";
     private final String ADMIN_PASSWORD = "123";
@@ -30,8 +34,10 @@ public class MainFrame extends JFrame {
 
 
     private void initComps() {
+        controller = new Controller();
         loginPanel = new LoginPanel();
         loginMenuBar = new LoginMenuBar();
+        controller.addObserver(this);
     }
 
     private void layoutComps() {
@@ -55,6 +61,7 @@ public class MainFrame extends JFrame {
                     String password = new String(passwordField.getPassword());
                     if (ADMIN_USERNAME.equals(username) && ADMIN_PASSWORD.equals(password)) {
                         JOptionPane.showMessageDialog(MainFrame.this, "Admin access granted.");
+                        AdminFrame adminFrame = new AdminFrame();
                     } else {
                         JOptionPane.showMessageDialog(MainFrame.this, "Incorrect admin credentials.");
                     }
@@ -69,4 +76,8 @@ public class MainFrame extends JFrame {
 
     }
 
+    @Override
+    public void update() {
+        System.out.println("MainFrame received update from Controller.");
+    }
 }

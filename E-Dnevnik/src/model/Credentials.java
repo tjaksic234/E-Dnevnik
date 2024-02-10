@@ -23,22 +23,6 @@ public abstract class Credentials {
         this.password = generateRandomString(random.nextInt(3,10));
     }
 
-//    public boolean isUsernameValid(String username) {
-//        return username.length() >= 5;
-//    }
-//
-//    public boolean isPasswordValid(String password) {
-//        return password.length() >= 8;
-//    }
-//
-//    public boolean isEmailValid(String email) {
-//        return email.contains("@") && email.contains(".");
-//    }
-//
-//    public boolean isNameValid(String name) {
-//        return name.length() >= 3;
-//    }
-
     private String generateRandomString(int length) {
         String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+";
         Random random = new Random();

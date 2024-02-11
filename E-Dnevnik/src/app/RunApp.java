@@ -1,8 +1,7 @@
 package app;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import view.MainFrame;
+import view.loginPanel.LoginFrame;
 
 import javax.swing.*;
 
@@ -11,7 +10,7 @@ public class RunApp {
         UIManager.setLookAndFeel(new FlatMacDarkLaf());
 
         SwingUtilities.invokeLater(() -> {
-            MainFrame mainFrame = new MainFrame();
+            LoginFrame loginFrame = new LoginFrame();
         });
     }
 }

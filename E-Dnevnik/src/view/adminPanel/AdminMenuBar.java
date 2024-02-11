@@ -60,10 +60,10 @@ public class AdminMenuBar extends JMenuBar implements ActionListener {
         professorOverviewItem = new JMenuItem("Professor Overview");
 
         studentOverviewItem.addActionListener(this);
-        studentOverviewItem.setActionCommand("studentOverview");
+        studentOverviewItem.setActionCommand("student_overview");
 
         professorOverviewItem.addActionListener(this);
-        professorOverviewItem.setActionCommand("professorOverview");
+        professorOverviewItem.setActionCommand("professor_overview");
     }
 
     private void layoutComps() {

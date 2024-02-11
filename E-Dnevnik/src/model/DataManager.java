@@ -15,6 +15,10 @@ public class DataManager<E> {
         return data;
     }
 
+    public void setData(ArrayList<E> data) {
+        this.data = data;
+    }
+
     public void addEntity(E data) {
         if (data != null && !this.data.contains(data)) {
             this.data.add(data);
@@ -29,5 +33,9 @@ public class DataManager<E> {
         } else {
             JOptionPane.showMessageDialog(null, "Entity does not exist in the database.");
         }
+    }
+
+    public void removeLastAddedEntity() {
+        data.remove(data.size() - 1);
     }
 }

@@ -8,6 +8,7 @@ public class AdminPanelEvent extends EventObject {
 
     private String name;
     private String surname;
+    private String uniqueID;
     private String actionCommand;
 
     /**
@@ -17,10 +18,11 @@ public class AdminPanelEvent extends EventObject {
      * @throws IllegalArgumentException if source is null
      */
 
-    public AdminPanelEvent(Object source, String name, String surname, String actionCommand) {
+    public AdminPanelEvent(Object source, String name, String surname, String uniqueID, String actionCommand) {
         super(source);
         this.name = name;
         this.surname = surname;
+        this.uniqueID = uniqueID;
         this.actionCommand = actionCommand;
     }
 
@@ -34,6 +36,10 @@ public class AdminPanelEvent extends EventObject {
         return surname;
     }
 
+    public String getUniqueID() {
+        return uniqueID;
+    }
+
     public String getActionCommand() {
         return actionCommand;
     }
@@ -43,6 +49,8 @@ public class AdminPanelEvent extends EventObject {
         return "AdminPanelEvent{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
+                ", uniqueID='" + uniqueID + '\'' +
+                ", actionCommand='" + actionCommand + '\'' +
                 '}';
     }
 }

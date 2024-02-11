@@ -21,6 +21,11 @@ public class AdminPanel extends JPanel implements ActionListener {
     private JButton undoStudentButton;
     private JButton undoProfessorButton;
 
+    private JTextField studentUniqueIdField;
+    private JTextField professorUniqueIdField;
+    private JLabel studentUniqueIdLabel;
+    private JLabel professorUniqueIdLabel;
+
     private AdminPanelActionListener adminPanelActionListener;
 
     public AdminPanel() {
@@ -41,6 +46,11 @@ public class AdminPanel extends JPanel implements ActionListener {
         registerProfessorButton = new JButton("          Register          ");
         undoStudentButton = new JButton("            Undo             ");
         undoProfessorButton = new JButton("            Undo             ");
+
+        studentUniqueIdField = new JTextField(20);
+        studentUniqueIdLabel = new JLabel("Unique ID:");
+        professorUniqueIdField = new JTextField(20);
+        professorUniqueIdLabel = new JLabel("Unique ID:");
 
         // Styling buttons
         registerStudentButton.setBackground(new Color(0, 153, 51));
@@ -106,26 +116,34 @@ public class AdminPanel extends JPanel implements ActionListener {
         gbc.gridy++;
         studentPanel.add(new JLabel("Surname:"), gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        studentNameField.setPreferredSize(new Dimension(130, 25));  // Adjust width
-        studentPanel.add(studentNameField, gbc);
+        // Unique ID for student
+        gbc.gridx = 0;
         gbc.gridy++;
-        studentSurnameField.setPreferredSize(new Dimension(130, 25));  // Adjust width
-        studentPanel.add(studentSurnameField, gbc);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        studentUniqueIdLabel = new JLabel("Unique ID:");
+        studentPanel.add(studentUniqueIdLabel, gbc);
+
+        gbc.gridx = 1;
+        studentUniqueIdField = new JTextField(20);
+        studentPanel.add(studentUniqueIdField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.CENTER;
-        registerStudentButton.setPreferredSize(new Dimension(150, 30));  // Adjust size
-        studentPanel.add(registerStudentButton, gbc);
-
+        studentPanel.add(registerStudentButton, gbc); // Register button in the first column
         gbc.gridy++;
-        undoStudentButton.setPreferredSize(new Dimension(150, 30));  // Adjust size
-        studentPanel.add(undoStudentButton, gbc);
+        studentPanel.add(undoStudentButton, gbc); // Undo button in the second column
+
+        gbc.gridx = 1; // Move to the second column
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        studentNameField.setPreferredSize(new Dimension(200, 25));  // Adjust width and height
+        studentPanel.add(studentNameField, gbc);
+        gbc.gridy++;
+        studentSurnameField.setPreferredSize(new Dimension(200, 25));  // Adjust width and height
+        studentPanel.add(studentSurnameField, gbc);
 
         JPanel professorPanel = new JPanel();
         professorPanel.setLayout(new GridBagLayout());
@@ -140,26 +158,34 @@ public class AdminPanel extends JPanel implements ActionListener {
         gbc.gridy++;
         professorPanel.add(new JLabel("Surname:"), gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        professorNameField.setPreferredSize(new Dimension(130, 25));  // Adjust width
-        professorPanel.add(professorNameField, gbc);
+        // Unique ID for professor
+        gbc.gridx = 0;
         gbc.gridy++;
-        professorSurnameField.setPreferredSize(new Dimension(130, 25));  // Adjust width
-        professorPanel.add(professorSurnameField, gbc);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        professorUniqueIdLabel = new JLabel("Unique ID:");
+        professorPanel.add(professorUniqueIdLabel, gbc);
+
+        gbc.gridx = 1;
+        professorUniqueIdField = new JTextField(20);
+        professorPanel.add(professorUniqueIdField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.CENTER;
-        registerProfessorButton.setPreferredSize(new Dimension(150, 30));  // Adjust size
-        professorPanel.add(registerProfessorButton, gbc);
-
+        professorPanel.add(registerProfessorButton, gbc); // Register button in the first column
         gbc.gridy++;
-        undoProfessorButton.setPreferredSize(new Dimension(150, 30));  // Adjust size
-        professorPanel.add(undoProfessorButton, gbc);
+        professorPanel.add(undoProfessorButton, gbc); // Undo button in the second column
+
+        gbc.gridx = 1; // Move to the second column
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        professorNameField.setPreferredSize(new Dimension(200, 25));  // Adjust width and height
+        professorPanel.add(professorNameField, gbc);
+        gbc.gridy++;
+        professorSurnameField.setPreferredSize(new Dimension(200, 25));  // Adjust width and height
+        professorPanel.add(professorSurnameField, gbc);
 
         JPanel rightPanel = new JPanel(new GridLayout(2, 1, 0, 10));
         rightPanel.add(studentPanel);
@@ -170,12 +196,46 @@ public class AdminPanel extends JPanel implements ActionListener {
         add(rightPanel, BorderLayout.CENTER);
     }
 
+    public void resetFields() {
+        studentNameField.setText("");
+        studentSurnameField.setText("");
+        professorNameField.setText("");
+        professorSurnameField.setText("");
+        studentUniqueIdField.setText("");
+        professorUniqueIdField.setText("");
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (adminPanelActionListener != null) {
-            String name = studentNameField.getText();
-            String surname = studentSurnameField.getText();
-            AdminPanelEvent adminPanelEvent = new AdminPanelEvent(this, name, surname, e.getActionCommand());
+            String name;
+            String surname;
+            String uniqueID;
+            if (e.getActionCommand().equals("register_student")) {
+                name = studentNameField.getText();
+                surname = studentSurnameField.getText();
+                uniqueID = studentUniqueIdField.getText();
+            } else if (e.getActionCommand().equals("register_professor")) {
+                name = professorNameField.getText();
+                surname = professorSurnameField.getText();
+                uniqueID = professorUniqueIdField.getText();
+            } else if (e.getActionCommand().equals("undo_student")) {
+
+                name = e.getActionCommand();
+                surname = e.getActionCommand();
+                uniqueID = e.getActionCommand();
+
+            } else if (e.getActionCommand().equals("undo_professor")) {
+
+                name = e.getActionCommand();
+                surname = e.getActionCommand();
+                uniqueID = e.getActionCommand();
+
+            } else {
+                throw new IllegalStateException("Unexpected value: " + e.getActionCommand());
+            }
+
+            AdminPanelEvent adminPanelEvent = new AdminPanelEvent(this, name, surname, uniqueID, e.getActionCommand());
             adminPanelActionListener.adminPanelEventOccured(adminPanelEvent);
         }
     }

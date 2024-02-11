@@ -1,25 +1,23 @@
-package view;
+package view.loginPanel;
 
 import controller.Controller;
 import observer.Observer;
 import view.adminPanel.AdminFrame;
-import view.loginPanel.LoginMenuBar;
-import view.loginPanel.LoginPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MainFrame extends JFrame implements Observer {
+public class LoginFrame extends JFrame implements Observer {
 
     private LoginPanel loginPanel;
     private LoginMenuBar loginMenuBar;
 
-    private Controller controller;
+    private Controller controller = Controller.getInstance();
 
     private final String ADMIN_USERNAME = "123";
     private final String ADMIN_PASSWORD = "123";
 
-    public MainFrame() {
+    public LoginFrame() {
         setTitle("e-Student");
         setSize(550, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,7 +32,6 @@ public class MainFrame extends JFrame implements Observer {
 
 
     private void initComps() {
-        controller = new Controller();
         loginPanel = new LoginPanel();
         loginMenuBar = new LoginMenuBar();
         controller.addObserver(this);
@@ -60,14 +57,16 @@ public class MainFrame extends JFrame implements Observer {
                     String username = usernameField.getText();
                     String password = new String(passwordField.getPassword());
                     if (ADMIN_USERNAME.equals(username) && ADMIN_PASSWORD.equals(password)) {
-                        JOptionPane.showMessageDialog(MainFrame.this, "Admin access granted.");
-                        AdminFrame adminFrame = new AdminFrame();
+                        JOptionPane.showMessageDialog(LoginFrame.this, "Admin access granted.");
+                        new AdminFrame();
+                        controller.logOut();
+                        dispose();
                     } else {
-                        JOptionPane.showMessageDialog(MainFrame.this, "Incorrect admin credentials.");
+                        JOptionPane.showMessageDialog(LoginFrame.this, "Incorrect admin credentials.");
                     }
                 }
             } else if (actionCommand.equals("exit")) {
-                int action = JOptionPane.showConfirmDialog(MainFrame.this, "Are you sure you want to exit?", "Exit", JOptionPane.OK_CANCEL_OPTION);
+                int action = JOptionPane.showConfirmDialog(LoginFrame.this, "Are you sure you want to exit?", "Exit", JOptionPane.OK_CANCEL_OPTION);
                 if (action == JOptionPane.OK_OPTION) {
                     System.exit(0);
                 }
@@ -76,8 +75,23 @@ public class MainFrame extends JFrame implements Observer {
 
     }
 
+
+    private void updateDatabase() {
+        controller.setStudentData(controller.getStudentData());
+        controller.setTeacherData(controller.getTeacherData());
+    }
+
     @Override
     public void update() {
-        System.out.println("MainFrame received update from Controller.");
+        updateDatabase();
+        System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
+        System.out.println("Data has been successfully updated for " + getClass().getSimpleName() + " :");
+        System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
+        System.out.println("Updated Student Data:");
+        System.out.println(controller.getStudentData());
+        System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
+        System.out.println("Updated Teacher Data:");
+        System.out.println(controller.getTeacherData());
+        System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
     }
 }

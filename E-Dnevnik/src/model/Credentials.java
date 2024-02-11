@@ -9,16 +9,15 @@ public abstract class Credentials {
     private String username;
     private String password;
     private String email;
-    private int id;
-    private static int idCounter = 1;
+    private String uniqueID;
 
     private final Random random = new Random();
 
-    protected Credentials(String name, String surname) {
+    protected Credentials(String name, String surname, String uniqueID) {
         this.name = name;
         this.surname = surname;
         this.username = name + surname + random.nextInt(100);
-        this.id = idCounter++;
+        this.uniqueID = uniqueID;
         this.email = username + "@unizd.hr";
         this.password = generateRandomString(random.nextInt(3,10));
     }
@@ -33,7 +32,7 @@ public abstract class Credentials {
             int index = Math.abs(b) % characters.length();
             stringBuilder.append(characters.charAt(index));
         }
-        System.out.println("Generated this password -->" + stringBuilder + "<-- for user " + username + " with id " + id);
+        System.out.println("Generated this password -->" + stringBuilder + "<-- for user " + username + " with id " + uniqueID + ".");
         return stringBuilder.toString();
     }
 
@@ -57,19 +56,20 @@ public abstract class Credentials {
         return email;
     }
 
-    public int getId() {
-        return id;
+    public String getUniqueID() {
+        return uniqueID;
     }
 
     @Override
     public String toString() {
-        return "Credentials{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", id=" + id +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Name: ").append(name).append("\n");
+        sb.append("Surname: ").append(surname).append("\n");
+        sb.append("Username: ").append(username).append("\n");
+        sb.append("Password: ").append(password).append("\n");
+        sb.append("Email: ").append(email).append("\n");
+        sb.append("Unique ID: ").append(uniqueID).append("\n");
+        return sb.toString();
     }
+
 }

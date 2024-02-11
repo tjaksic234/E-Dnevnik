@@ -3,13 +3,12 @@ package view.adminPanel;
 import controller.Controller;
 import model.StudentCredentials;
 import model.ProfessorCredentials;
-import observer.Observer;
 import view.loginPanel.LoginFrame;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class AdminFrame extends JFrame implements Observer {
+public class AdminFrame extends JFrame {
 
     private AdminPanel adminPanel;
     private AdminMenuBar adminMenuBar;
@@ -34,7 +33,6 @@ public class AdminFrame extends JFrame implements Observer {
         adminPanel = new AdminPanel();
         adminMenuBar = new AdminMenuBar();
         overviewPopup = new OverviewPopup();
-        controller.addObserver(this);
     }
 
     private void layoutComponents() {
@@ -55,6 +53,7 @@ public class AdminFrame extends JFrame implements Observer {
                 if (option == JOptionPane.OK_OPTION) {
                     new LoginFrame();
                     controller.logOut();
+                    update();
                     dispose();
                 }
             }
@@ -142,21 +141,14 @@ public class AdminFrame extends JFrame implements Observer {
         adminPanel.resetFields();
     }
 
-    private void updateDatabase() {
-        controller.setStudentData(controller.getStudentData());
-        controller.setTeacherData(controller.getTeacherData());
-    }
-
-    @Override
     public void update() {
-        updateDatabase();
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
-        System.out.println("Data has been successfully updated for " + getClass().getSimpleName() + " :");
+        System.out.println("Data created in " + getClass().getSimpleName() + " :");
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
-        System.out.println("Updated Student Data:");
+        System.out.println("Student Data:");
         System.out.println(controller.getStudentData());
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
-        System.out.println("Updated Teacher Data:");
+        System.out.println("Teacher Data:");
         System.out.println(controller.getTeacherData());
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
     }

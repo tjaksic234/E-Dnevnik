@@ -1,13 +1,12 @@
 package view.loginPanel;
 
 import controller.Controller;
-import observer.Observer;
 import view.adminPanel.AdminFrame;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class LoginFrame extends JFrame implements Observer {
+public class LoginFrame extends JFrame {
 
     private LoginPanel loginPanel;
     private LoginMenuBar loginMenuBar;
@@ -34,7 +33,6 @@ public class LoginFrame extends JFrame implements Observer {
     private void initComps() {
         loginPanel = new LoginPanel();
         loginMenuBar = new LoginMenuBar();
-        controller.addObserver(this);
     }
 
     private void layoutComps() {
@@ -61,6 +59,7 @@ public class LoginFrame extends JFrame implements Observer {
                         new AdminFrame();
                         controller.logOut();
                         dispose();
+                        update();
                     } else {
                         JOptionPane.showMessageDialog(LoginFrame.this, "Incorrect admin credentials.");
                     }
@@ -75,22 +74,14 @@ public class LoginFrame extends JFrame implements Observer {
 
     }
 
-
-    private void updateDatabase() {
-        controller.setStudentData(controller.getStudentData());
-        controller.setTeacherData(controller.getTeacherData());
-    }
-
-    @Override
     public void update() {
-        updateDatabase();
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
-        System.out.println("Data has been successfully updated for " + getClass().getSimpleName() + " :");
+        System.out.println("Data created in " + getClass().getSimpleName() + " :");
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
-        System.out.println("Updated Student Data:");
+        System.out.println("Student Data:");
         System.out.println(controller.getStudentData());
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
-        System.out.println("Updated Teacher Data:");
+        System.out.println("Teacher Data:");
         System.out.println(controller.getTeacherData());
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
     }

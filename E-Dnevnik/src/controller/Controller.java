@@ -3,11 +3,10 @@ package controller;
 import model.DataManager;
 import model.StudentCredentials;
 import model.ProfessorCredentials;
-import observer.ObservablePanelHelper;
 
 import java.util.ArrayList;
 
-public class Controller extends ObservablePanelHelper {
+public class Controller {
 
     private DataManager<StudentCredentials> studentDataManager;
     private DataManager<ProfessorCredentials> teacherDataManager;
@@ -34,7 +33,6 @@ public class Controller extends ObservablePanelHelper {
         } else {
             System.out.println("Invalid data type in method addEntity(E data).");
         }
-        notifyObservers();
     }
 
     public <E> void removeEntity(E data) {
@@ -45,7 +43,6 @@ public class Controller extends ObservablePanelHelper {
         } else {
             System.out.println("Invalid data type in method removeEntity(E data).");
         }
-        notifyObservers();
     }
 
     public void removeLastAddedEntity(Class<?> dataType) {
@@ -56,7 +53,6 @@ public class Controller extends ObservablePanelHelper {
         } else {
             System.out.println("Invalid data type in method removeLastAddedEntity(Class<?> dataType).");
         }
-        notifyObservers();
     }
 
     public ArrayList<StudentCredentials> getStudentData() {
@@ -67,17 +63,8 @@ public class Controller extends ObservablePanelHelper {
         return teacherDataManager.getData();
     }
 
-    public void setStudentData(ArrayList<StudentCredentials> studentData) {
-        studentDataManager.setData(studentData);
-    }
-
-    public void setTeacherData(ArrayList<ProfessorCredentials> teacherData) {
-        teacherDataManager.setData(teacherData);
-    }
-
     public void logOut() {
         System.out.println("Logging out...");
-        notifyObservers();
     }
 
 }

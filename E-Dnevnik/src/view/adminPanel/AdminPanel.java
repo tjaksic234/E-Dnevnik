@@ -98,11 +98,34 @@ public class AdminPanel extends JPanel implements ActionListener {
         leftPanel.setBorder(BorderFactory.createTitledBorder("FAQs"));
         leftPanel.setPreferredSize(new Dimension(200, getHeight()));
 
-        // Add text inside the placeholder information border
-        JLabel placeholderLabel = new JLabel("This is a placeholder for FAQs.");
-        placeholderLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        leftPanel.add(placeholderLabel, BorderLayout.CENTER);
-
+        JTextArea textArea = new JTextArea(
+                "This is the admin panel, which serves as the control center for managing student and professor data. Here's how to use it:\n\n"
+                        + "1. Student Registration:\n"
+                        + "   - Enter the student's name, surname, and unique ID in the respective fields.\n"
+                        + "   - Click the 'Register' button to add the student to the system.\n"
+                        + "   - To undo the last student registration, click the 'Undo' button.\n\n"
+                        + "2. Professor Registration:\n"
+                        + "   - Enter the professor's name, surname, and unique ID in the respective fields.\n"
+                        + "   - Click the 'Register' button to add the professor to the system.\n"
+                        + "   - To undo the last professor registration, click the 'Undo' button.\n\n"
+                        + "Note: All fields must be filled, and the unique ID must not be already in use.\n"
+                        + "The left panel provides information and FAQs related to this admin panel.\n"
+                        + "Use the 'Exit' option from the menu to close the application, and 'Log Out' to return to the login screen.\n\n"
+                        + "Menu Options (CSV Format):\n"
+                        + "   - Import Data: Allows importing CSV data into the application.\n"
+                        + "   - Export Data: Enables exporting data to a CSV file.\n"
+                        + "   - Log Out: Logs out the current user from the admin panel.\n"
+                        + "   - Exit: Closes the application.\n\n"
+                        + "Subject Menu:\n"
+                        + "   - Start Editor: Initiates an editor for managing subjects.\n\n"
+                        + "Overview Menu:\n"
+                        + "   - Student Overview: Displays an overview of student data.\n"
+                        + "   - Professor Overview: Displays an overview of professor data.\n"
+        );
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        leftPanel.add(new JScrollPane(textArea), BorderLayout.CENTER);
         JPanel studentPanel = new JPanel();
         studentPanel.setLayout(new GridBagLayout());
         studentPanel.setBorder(BorderFactory.createTitledBorder("Student Registration"));

@@ -7,14 +7,19 @@ import view.loginPanel.LoginFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AdminFrame extends JFrame {
 
     private AdminPanel adminPanel;
     private AdminMenuBar adminMenuBar;
     private OverviewPopup overviewPopup;
+    private SubjectEditorPopup subjectEditorPopup;
 
-    private Controller controller = Controller.getInstance();
+    private final String JSON_FILE_PATH = "C:\\Users\\jaksa\\Desktop\\NOOP - PROJEKT\\E-Dnevnik\\E-Dnevnik\\src\\data_files\\subjects.json";
+
+    private final Controller controller = Controller.getInstance();
 
     public AdminFrame() {
         setTitle("ADMIN PANEL");
@@ -33,6 +38,7 @@ public class AdminFrame extends JFrame {
         adminPanel = new AdminPanel();
         adminMenuBar = new AdminMenuBar();
         overviewPopup = new OverviewPopup();
+        subjectEditorPopup = new SubjectEditorPopup();
     }
 
     private void layoutComponents() {
@@ -62,6 +68,13 @@ public class AdminFrame extends JFrame {
             }
             if (actionCommand.equals("professor_overview")) {
                 overviewPopup.showOverview(controller.getTeacherData(), "Professor Overview");
+            }
+            if (actionCommand.equals("startEditor")) {
+                HashMap<String, String> data = controller.readFromFile(JSON_FILE_PATH);
+                subjectEditorPopup.teacherDataUpdate(controller.getTeacherData());
+                subjectEditorPopup.fillTable(controller.getTeacherData());
+                subjectEditorPopup.fillJList(data);
+                subjectEditorPopup.show(this, 100, -50);
             }
         });
         adminPanel.setAdminPanelEventListener(actionCommand -> {
@@ -110,7 +123,16 @@ public class AdminFrame extends JFrame {
                 }
             }
         });
-
+        subjectEditorPopup.setSubjectEditorActionListener(actionCommand -> {
+            if (actionCommand.getActionCommand().equals("assign")) {
+                controller.addSubjectToProfessor(actionCommand.getProfessor(), actionCommand.getSubjects());
+                System.out.println("////////////////////////////////////////////////");
+                System.out.println(controller.getSubjectAllocationMap());
+            }
+            if (actionCommand.getActionCommand().equals("undo")) {
+                controller.removeSubjectFromProfessor(actionCommand.getProfessor(), actionCommand.getSubjects());
+            }
+        });
     }
 
     private boolean validValueCheck(String name, String surname, String uniqueID) {

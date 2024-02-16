@@ -1,21 +1,27 @@
 package controller;
 
-import model.DataManager;
-import model.StudentCredentials;
-import model.ProfessorCredentials;
+import data_handling.JSONUtils;
+import data_handling.SubjectDataProcessor;
+import model.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Controller {
 
-    private DataManager<StudentCredentials> studentDataManager;
-    private DataManager<ProfessorCredentials> teacherDataManager;
+    private final DataManager<StudentCredentials> studentDataManager;
+    private final DataManager<ProfessorCredentials> teacherDataManager;
+    private final SubjectAllocation professorSubjectHandling;
+    private final SubjectDataProcessor subjectDataProcessor;
 
     private static Controller instance;
 
     public Controller() {
         this.studentDataManager = new DataManager<>();
         this.teacherDataManager = new DataManager<>();
+        this.professorSubjectHandling = new ProfessorSubjectHandling();
+        this.subjectDataProcessor = new JSONUtils();
     }
 
     public static Controller getInstance() {
@@ -24,6 +30,8 @@ public class Controller {
         }
         return instance;
     }
+
+    // Data management methods for student and teacher credentials
 
     public <E> void addEntity(E data) {
         if (data instanceof StudentCredentials) {
@@ -65,6 +73,34 @@ public class Controller {
 
     public void logOut() {
         System.out.println("Logging out...");
+    }
+
+    // Subject allocation methods for assigning subjects to professors
+
+    public void addSubjectToProfessor(ProfessorCredentials professor, ArrayList<String> subjects) {
+        professorSubjectHandling.addSubjectToProfessor(professor, subjects);
+    }
+
+    public void removeSubjectFromProfessor(ProfessorCredentials professor, ArrayList<String> subjects) {
+        professorSubjectHandling.removeSubjectFromProfessor(professor, subjects);
+    }
+
+    public void setSubjectAllocationMap(HashMap<Credentials, ArrayList<String>> subjectAllocationMap) {
+        professorSubjectHandling.setSubjectAllocationMap(subjectAllocationMap);
+    }
+
+    public HashMap<Credentials, ArrayList<String>> getSubjectAllocationMap() {
+        return professorSubjectHandling.getSubjectAllocationMap();
+    }
+
+    // Data processing methods for reading and listing subject data from files
+
+    public HashMap<String, String> readFromFile(String pathToFile) {
+        return subjectDataProcessor.readFromFile(pathToFile);
+    }
+
+    public void listAllRecords(HashMap<String, String> dataRecord) {
+        subjectDataProcessor.listAllRecords(dataRecord);
     }
 
 }

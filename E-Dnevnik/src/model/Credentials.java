@@ -32,7 +32,7 @@ public abstract class Credentials {
             int index = Math.abs(b) % characters.length();
             stringBuilder.append(characters.charAt(index));
         }
-        System.out.println("Generated this password -->" + stringBuilder + "<-- for user " + username + " with id " + uniqueID + ".");
+//        System.out.println("Generated this password -->" + stringBuilder + "<-- for user " + username + " with id " + uniqueID + ".");
         return stringBuilder.toString();
     }
 
@@ -58,6 +58,30 @@ public abstract class Credentials {
 
     public String getUniqueID() {
         return uniqueID;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUniqueID(String uniqueID) {
+        this.uniqueID = uniqueID;
     }
 
     @Override

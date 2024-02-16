@@ -1,0 +1,49 @@
+{
+  "subjects": [
+    {
+      "CS101": "Computer Science"
+    },
+    {
+      "MATH101": "Calculus"
+    },
+    {
+      "ENG101": "English"
+    },
+    {
+      "PHYS101": "Physics"
+    },
+    {
+      "CHEM101": "Chemistry"
+    },
+    {
+      "BIO101": "Biology"
+    },
+    {
+      "HIST101": "History"
+    },
+    {
+      "PSYC101": "Psychology"
+    },
+    {
+      "SOC101": "Sociology"
+    },
+    {
+      "ECON101": "Economics"
+    },
+    {
+      "ART101": "Art"
+    },
+    {
+      "PHIL101": "Philosophy"
+    },
+    {
+      "MUS101": "Music"
+    },
+    {
+      "LANG101": "Language"
+    },
+    {
+      "GEOG101": "Geography"
+    }
+  ]
+}

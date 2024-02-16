@@ -1,5 +1,6 @@
-package listeners;
+package listeners.adminPanelListeners;
 
+import java.util.ArrayList;
 import java.util.EventObject;
 
 public class AdminPanelEvent extends EventObject {

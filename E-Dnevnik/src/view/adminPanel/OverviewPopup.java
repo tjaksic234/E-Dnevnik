@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,7 +90,31 @@ public class OverviewPopup {
         // Create a JScrollPane to add the table to
         JScrollPane scrollPane = new JScrollPane(table);
 
+        // Create a Remove button
+        JButton removeButton = new JButton("Remove");
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get the selected row index
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Remove row from the table
+                    tableModel.removeRow(selectedRow);
+                    // Remove corresponding object from the dataList
+                    dataList.remove(selectedRow);
+                    System.out.println("Removed row " + selectedRow + " from the table.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select a row to remove.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        // Add the components to a panel
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(removeButton, BorderLayout.SOUTH);
+
         // Show the table in a JOptionPane
-        JOptionPane.showMessageDialog(null, scrollPane, title, JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, panel, title, JOptionPane.PLAIN_MESSAGE);
     }
 }

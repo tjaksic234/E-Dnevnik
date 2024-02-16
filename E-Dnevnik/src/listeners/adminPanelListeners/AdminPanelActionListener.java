@@ -1,4 +1,4 @@
-package listeners;
+package listeners.adminPanelListeners;
 
 import java.util.EventListener;
 

@@ -11,7 +11,7 @@ public class LoginFrame extends JFrame {
     private LoginPanel loginPanel;
     private LoginMenuBar loginMenuBar;
 
-    private Controller controller = Controller.getInstance();
+    private final Controller controller = Controller.getInstance();
 
     private final String ADMIN_USERNAME = "123";
     private final String ADMIN_PASSWORD = "123";

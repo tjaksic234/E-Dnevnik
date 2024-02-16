@@ -1,14 +1,12 @@
 package view.adminPanel;
 
-import listeners.AdminPanelActionListener;
-import listeners.AdminPanelEvent;
-import model.Credentials;
+import listeners.adminPanelListeners.AdminPanelActionListener;
+import listeners.adminPanelListeners.AdminPanelEvent;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Stack;
 
 public class AdminPanel extends JPanel implements ActionListener {
 

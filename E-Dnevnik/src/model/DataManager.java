@@ -38,4 +38,5 @@ public class DataManager<E> {
     public void removeLastAddedEntity() {
         data.remove(data.size() - 1);
     }
+
 }

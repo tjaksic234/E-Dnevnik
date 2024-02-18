@@ -1,6 +1,6 @@
 package view.adminPanel;
 
-import listeners.adminPanelListeners.AdminPanelActionListener;
+import listeners.adminPanelListeners.AdminPanelEventListener;
 import listeners.adminPanelListeners.AdminPanelEvent;
 
 import javax.swing.*;
@@ -24,7 +24,7 @@ public class AdminPanel extends JPanel implements ActionListener {
     private JLabel studentUniqueIdLabel;
     private JLabel professorUniqueIdLabel;
 
-    private AdminPanelActionListener adminPanelActionListener;
+    private AdminPanelEventListener adminPanelEventListener;
 
     public AdminPanel() {
 
@@ -228,7 +228,7 @@ public class AdminPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (adminPanelActionListener != null) {
+        if (adminPanelEventListener != null) {
             String name;
             String surname;
             String uniqueID;
@@ -257,11 +257,11 @@ public class AdminPanel extends JPanel implements ActionListener {
             }
 
             AdminPanelEvent adminPanelEvent = new AdminPanelEvent(this, name, surname, uniqueID, e.getActionCommand());
-            adminPanelActionListener.adminPanelEventOccured(adminPanelEvent);
+            adminPanelEventListener.adminPanelEventOccured(adminPanelEvent);
         }
     }
 
-    public void setAdminPanelEventListener(AdminPanelActionListener adminPanelActionListener) {
-        this.adminPanelActionListener = adminPanelActionListener;
+    public void setAdminPanelEventListener(AdminPanelEventListener adminPanelEventListener) {
+        this.adminPanelEventListener = adminPanelEventListener;
     }
 }

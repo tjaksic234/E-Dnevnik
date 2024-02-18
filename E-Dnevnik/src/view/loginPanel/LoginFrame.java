@@ -1,6 +1,7 @@
 package view.loginPanel;
 
 import controller.Controller;
+import model.Credentials;
 import view.adminPanel.AdminFrame;
 
 import javax.swing.*;
@@ -57,9 +58,7 @@ public class LoginFrame extends JFrame {
                     if (ADMIN_USERNAME.equals(username) && ADMIN_PASSWORD.equals(password)) {
                         JOptionPane.showMessageDialog(LoginFrame.this, "Admin access granted.");
                         new AdminFrame();
-                        controller.logOut();
                         dispose();
-                        update();
                     } else {
                         JOptionPane.showMessageDialog(LoginFrame.this, "Incorrect admin credentials.");
                     }
@@ -72,17 +71,33 @@ public class LoginFrame extends JFrame {
             }
         });
 
+        loginPanel.setLoginPanelActionListener(actionCommand -> {
+            if (actionCommand.getActionCommand().equals("student")) {
+                String userName = actionCommand.getUserName();
+                String password = actionCommand.getPassword();
+                System.out.println(userName);
+                System.out.println(password);
+                for (Credentials object : controller.getStudentData()) {
+                    if (userName.equals(object.getUsername()) && password.equals(object.getPassword())) {
+                        System.out.println("Login Successful!!!");
+                    }
+                }
+                JOptionPane.showMessageDialog(LoginFrame.this, "Incorrect student credentials.");
+            }
+            if (actionCommand.getActionCommand().equals("professor")) {
+                String userName = actionCommand.getUserName();
+                String password = actionCommand.getPassword();
+                System.out.println(userName);
+                System.out.println(password);
+                for (Credentials object : controller.getTeacherData()) {
+                    if (userName.equals(object.getUsername()) && password.equals(object.getPassword())) {
+                        System.out.println("Login Successful!!!");
+                    }
+                }
+                JOptionPane.showMessageDialog(LoginFrame.this, "Incorrect professor credentials.");
+            }
+        });
     }
 
-    public void update() {
-        System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
-        System.out.println("Data created in " + getClass().getSimpleName() + " :");
-        System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
-        System.out.println("Student Data:");
-        System.out.println(controller.getStudentData());
-        System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
-        System.out.println("Teacher Data:");
-        System.out.println(controller.getTeacherData());
-        System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
-    }
+
 }

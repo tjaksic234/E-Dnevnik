@@ -1,4 +1,4 @@
-package data_handling;
+package model;
 
 import java.util.HashMap;
 

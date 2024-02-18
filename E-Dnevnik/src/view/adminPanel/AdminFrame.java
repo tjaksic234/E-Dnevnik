@@ -1,13 +1,13 @@
 package view.adminPanel;
 
 import controller.Controller;
+import data_handling.DataHandler;
 import model.StudentCredentials;
 import model.ProfessorCredentials;
 import view.loginPanel.LoginFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AdminFrame extends JFrame {
@@ -16,8 +16,9 @@ public class AdminFrame extends JFrame {
     private AdminMenuBar adminMenuBar;
     private OverviewPopup overviewPopup;
     private SubjectEditorPopup subjectEditorPopup;
+    private DataHandler dataHandler;
 
-    private final String JSON_FILE_PATH = "C:\\Users\\jaksa\\Desktop\\NOOP - PROJEKT\\E-Dnevnik\\E-Dnevnik\\src\\data_files\\subjects.json";
+    private final String JSON_FILE_PATH = "C:\\Users\\jaksa\\Desktop\\NOOP - PROJEKT\\E-Dnevnik\\E-Dnevnik\\src\\local_data\\subjects.json";
 
     private final Controller controller = Controller.getInstance();
 
@@ -39,6 +40,7 @@ public class AdminFrame extends JFrame {
         adminMenuBar = new AdminMenuBar();
         overviewPopup = new OverviewPopup();
         subjectEditorPopup = new SubjectEditorPopup();
+        dataHandler = new DataHandler();
     }
 
     private void layoutComponents() {
@@ -58,7 +60,6 @@ public class AdminFrame extends JFrame {
                 int option = JOptionPane.showConfirmDialog(AdminFrame.this, "Are you sure you want to log out?", "Log Out", JOptionPane.OK_CANCEL_OPTION);
                 if (option == JOptionPane.OK_OPTION) {
                     new LoginFrame();
-                    controller.logOut();
                     update();
                     dispose();
                 }
@@ -75,6 +76,12 @@ public class AdminFrame extends JFrame {
                 subjectEditorPopup.fillTable(controller.getTeacherData());
                 subjectEditorPopup.fillJList(data);
                 subjectEditorPopup.show(this, 100, -50);
+            }
+            if (actionCommand.equals("exportData")) {
+                dataExport();
+            }
+            if (actionCommand.equals("importData")) {
+                dataImport();
             }
         });
         adminPanel.setAdminPanelEventListener(actionCommand -> {
@@ -163,6 +170,36 @@ public class AdminFrame extends JFrame {
         adminPanel.resetFields();
     }
 
+    private void dataExport() {
+        String[] options = {"Student Data", "Professor Data"};
+        int choice = JOptionPane.showOptionDialog(null, "Which data do you want to export?",
+                "Export Data", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, options, options[0]);
+
+        if (choice == 0) {
+            dataHandler.saveData(controller.getStudentData());
+        } else if (choice == 1) {
+            dataHandler.saveData(controller.getTeacherData());
+        } else {
+            System.out.println("User cancelled the process.");
+        }
+    }
+
+    private void dataImport() {
+        String[] options = {"Student Data", "Professor Data"};
+        int choice = JOptionPane.showOptionDialog(null, "Which data do you want to import?",
+                "Export Data", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, options, options[0]);
+
+        if (choice == 0) {
+            controller.setStudentData(dataHandler.loadData());
+        } else if (choice == 1) {
+            controller.setTeacherData(dataHandler.loadData());
+        } else {
+            System.out.println("User cancelled the process.");
+        }
+    }
+
     public void update() {
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
         System.out.println("Data created in " + getClass().getSimpleName() + " :");
@@ -174,6 +211,8 @@ public class AdminFrame extends JFrame {
         System.out.println(controller.getTeacherData());
         System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - -");
     }
+
+
 
 
 }

@@ -1,8 +1,7 @@
 package view.adminPanel;
 
-import listeners.adminPanelListeners.SubjectEditorActionListener;
+import listeners.adminPanelListeners.SubjectEditorEventListener;
 import listeners.adminPanelListeners.SubjectEditorEvent;
-import model.Credentials;
 import model.ProfessorCredentials;
 
 import javax.swing.*;
@@ -27,7 +26,7 @@ public class SubjectEditorPopup extends JPopupMenu implements ActionListener {
 
     private ArrayList<ProfessorCredentials> data;
 
-    private SubjectEditorActionListener subjectEditorActionListener;
+    private SubjectEditorEventListener subjectEditorEventListener;
 
     public SubjectEditorPopup() {
         initComps();
@@ -139,13 +138,13 @@ public class SubjectEditorPopup extends JPopupMenu implements ActionListener {
             if (selectedSubjects != null && selectedRow != -1 && professor != null) {
                 professor.setPassword(data.get(selectedRow).getPassword());
                 SubjectEditorEvent event = new SubjectEditorEvent(this, professor, selectedSubjects, e.getActionCommand());
-                subjectEditorActionListener.subjectEditorEventOccurred(event);
+                subjectEditorEventListener.subjectEditorEventOccurred(event);
             }
         }
         if (e.getActionCommand().equals("undo")) {
             if (selectedRow != -1 && professor != null && selectedSubjects != null) {
                 SubjectEditorEvent event = new SubjectEditorEvent(this, professor, selectedSubjects, e.getActionCommand());
-                subjectEditorActionListener.subjectEditorEventOccurred(event);
+                subjectEditorEventListener.subjectEditorEventOccurred(event);
             }
 
         }
@@ -155,7 +154,7 @@ public class SubjectEditorPopup extends JPopupMenu implements ActionListener {
         }
     }
 
-    public void setSubjectEditorActionListener(SubjectEditorActionListener subjectEditorActionListener) {
-        this.subjectEditorActionListener = subjectEditorActionListener;
+    public void setSubjectEditorActionListener(SubjectEditorEventListener subjectEditorEventListener) {
+        this.subjectEditorEventListener = subjectEditorEventListener;
     }
 }

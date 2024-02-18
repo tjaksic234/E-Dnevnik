@@ -1,12 +1,11 @@
 package controller;
 
-import data_handling.JSONUtils;
-import data_handling.SubjectDataProcessor;
+import model.JSONUtils;
+import model.SubjectDataProcessor;
 import model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Controller {
 
@@ -66,13 +65,15 @@ public class Controller {
     public ArrayList<StudentCredentials> getStudentData() {
         return studentDataManager.getData();
     }
+    public void setStudentData(ArrayList<StudentCredentials> data) {
+        studentDataManager.setData(data);
+    }
 
     public ArrayList<ProfessorCredentials> getTeacherData() {
         return teacherDataManager.getData();
     }
-
-    public void logOut() {
-        System.out.println("Logging out...");
+    public void setTeacherData(ArrayList<ProfessorCredentials> data) {
+        teacherDataManager.setData(data);
     }
 
     // Subject allocation methods for assigning subjects to professors

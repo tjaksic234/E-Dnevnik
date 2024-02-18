@@ -1,9 +1,15 @@
 package view.loginPanel;
 
+import listeners.loginPanelListeners.LoginPanelEvent;
+import listeners.loginPanelListeners.LoginPanelEventListener;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
 
-public class LoginPanel extends JPanel {
+public class LoginPanel extends JPanel implements ActionListener{
 
     private JLabel studentTitleLabel;
     private JLabel professorTitleLabel;
@@ -18,11 +24,13 @@ public class LoginPanel extends JPanel {
     private JButton studentSignInButton;
     private JButton professorSignInButton;
 
+    private LoginPanelEventListener loginPanelEventListener;
+
+
     public LoginPanel() {
 
         initComps();
         layoutComps();
-        activateComps();
     }
 
     private void initComps() {
@@ -62,6 +70,13 @@ public class LoginPanel extends JPanel {
 
         studentPasswordLabel.setForeground(Color.WHITE);
         professorPasswordLabel.setForeground(Color.WHITE);
+
+        // Add action listeners
+        studentSignInButton.addActionListener(this);
+        studentSignInButton.setActionCommand("student");
+        professorSignInButton.addActionListener(this);
+        professorSignInButton.setActionCommand("professor");
+
     }
 
     private void layoutComps() {
@@ -81,44 +96,27 @@ public class LoginPanel extends JPanel {
         add(professorSignInButton);
     }
 
+    public void setLoginPanelActionListener(LoginPanelEventListener loginPanelEventListener) {
+        this.loginPanelEventListener = loginPanelEventListener;
+    }
 
-
-    public void activateComps() {
-        studentSignInButton.addActionListener(e -> {
-            String username = studentUsernameField.getText();
-            String password = new String(studentPasswordField.getPassword());
-            if (checkStudentCredentials(username, password)) {
-                JOptionPane.showMessageDialog(this, "Student access granted.");
-                reset();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (loginPanelEventListener != null) {
+            String userName;
+            String password;
+            if (e.getActionCommand().equals("student")) {
+                userName = studentUsernameField.getText();
+                password = String.valueOf(studentPasswordField.getPassword());
+            } else if (e.getActionCommand().equals("professor")) {
+                userName = professorUsernameField.getText();
+                password = String.valueOf(professorPasswordField.getPassword());
             } else {
-                JOptionPane.showMessageDialog(this, "Incorrect student credentials.");
+                throw new IllegalStateException("Unexpected value: " + e.getActionCommand());
             }
-        });
-
-        professorSignInButton.addActionListener(e -> {
-            String username = professorUsernameField.getText();
-            String password = new String(professorPasswordField.getPassword());
-            if (checkTeacherCredentials(username, password)) {
-                JOptionPane.showMessageDialog(this, "Teacher access granted.");
-                reset();
-            } else {
-                JOptionPane.showMessageDialog(this, "Incorrect teacher credentials.");
-            }
-        });
+            LoginPanelEvent loginPanelEvent = new LoginPanelEvent(this, userName, password, e.getActionCommand());
+            loginPanelEventListener.loginPanelEventOccurred(loginPanelEvent);
+        }
     }
 
-    public void reset() {
-        studentUsernameField.setText("");
-        studentPasswordField.setText("");
-        professorUsernameField.setText("");
-        professorPasswordField.setText("");
-    }
-
-    private boolean checkStudentCredentials(String username, String password) {
-        return username.equals("student") && password.equals("student");
-    }
-
-    private boolean checkTeacherCredentials(String username, String password) {
-        return username.equals("teacher") && password.equals("teacher");
-    }
 }
